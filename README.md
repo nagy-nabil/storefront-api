@@ -3,7 +3,23 @@
 ## Getting Started
 
 This repo contains a basic Node and Express app to get you started in constructing an API. To get started, clone this repo and run `yarn` in your terminal at the project root.
+## PRE
 
+
+## env vars
+
+| VAR NAME    | REQUIRED                  | EXAMPLE    | DEFAULT | DESCRIPTION                                                          |
+|-------------|---------------------------|------------|---------|----------------------------------------------------------------------|
+| PORT        | 🔴                         | 8000       | 3000    | set which port the server will run on                                |
+| PG_HOST     | ✅                         | 127.0.0.1  |         | set postgreSQL host name                                             |
+| PG_DB       | ✅                         | store_dev  |         | used to connect with the database and used in the migrations config  |
+| PG_TEST_DB  | ✅[only for running tests] | store_test |         | in "test" mode used to connect to the database and in the migrations |
+| PG_PORT     | ✅                         | 5432       |         | which port database is using                                         |
+| PG_USER     | ✅                         | user       |         | database username who can manage all tables in the database          |
+| PG_PASSWORD | ✅                         | password   |         | database user password                                               |
+| ENV         | 🔴                         | dev        | dev     | set env type[the database will automatically work in dev mode]       |
+
+## End Points
 ## Required Technologies
 Your application must make use of the following libraries:
 - Postgres for the database
