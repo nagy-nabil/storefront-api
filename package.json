@@ -1,0 +1,37 @@
+{
+        "name": "storefront",
+        "version": "1.0.0",
+        "type": "module",
+        "description": "",
+        "main": "dist/index.js",
+        "scripts": {
+                "start": "node  ./dist/index.js",
+                "build": "tsc --watch --preserveWatchOutput",
+                "dev": "nodemon  dist/index ",
+                "ts": "ts-node-esm src/index.ts",
+                "test": "jasmine",
+                "prettier": "prettier --config .prettierrc \"src/**/*.ts\" --write",
+                "lint": "eslint . --ext .ts"
+        },
+        "keywords": [],
+        "author": "",
+        "license": "ISC",
+        "devDependencies": {
+                "@types/jasmine": "^4.3.0",
+                "@types/node": "^18.7.21",
+                "@typescript-eslint/eslint-plugin": "^5.38.0",
+                "@typescript-eslint/parser": "^5.38.0",
+                "eslint": "^8.24.0",
+                "eslint-config-prettier": "^8.5.0",
+                "eslint-plugin-prettier": "^4.2.1",
+                "jasmine": "^4.4.0",
+                "jasmine-spec-reporter": "^7.0.0",
+                "nodemon": "^2.0.20",
+                "prettier": "^2.7.1",
+                "ts-node": "^10.9.1",
+                "typescript": "^4.8.3"
+        },
+        "dependencies": {
+                "express": "^4.18.1"
+        }
+}
