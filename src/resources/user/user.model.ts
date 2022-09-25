@@ -1,2 +1,3 @@
 import client from '../../database.js';
-export class UserModel {}
+import { ModelBase, UserRole, User, UserDoc } from '../../types.js';
+export class UserModel implements ModelBase<User, UserDoc> {}

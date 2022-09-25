@@ -37,3 +37,10 @@ export interface Order {
 export interface OrderDoc extends Order {
     id: string;
 }
+export interface Category {
+    name: string;
+    description: string;
+}
+export interface CategoryDoc extends Category {
+    id: string;
+}
