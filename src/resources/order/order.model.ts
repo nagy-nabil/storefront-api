@@ -33,7 +33,8 @@ export class OrderModel implements ModelBase<Order, OrderDoc> {
     async createOne(userID: string): Promise<OrderDoc> {
         try {
             const conn = await client.connect();
-            const sql = 'INSERT INTO orders (user_id, createdby) VALUES ($1, $1 ) RETURNING *;';
+            const sql =
+                'INSERT INTO orders (user_id, createdby) VALUES ($1, $1 ) RETURNING *;';
             const orders = await conn.query({
                 text: sql,
                 values: [userID]

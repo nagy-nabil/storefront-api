@@ -43,6 +43,7 @@ export function isAdmin(req: UserInReq, _res: Response, next: NextFunction) {
         if (!req.user) throw new Error('request with no user');
         if (req.user.role !== UserRole.ADMIN)
             throw new Error('action for admins only');
+        next();
     } catch (err) {
         next(new Error(`not authorized ${err}`));
     }
