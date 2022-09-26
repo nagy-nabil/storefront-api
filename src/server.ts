@@ -1,5 +1,8 @@
 import express from 'express';
 import morgan from 'morgan';
+import userRouter from './resources/user/user.router.js';
+import categoryRouter from './resources/category/category.router.js';
+import { authProtect, isAdmin } from './utils/auth.js';
 const app = express();
 // general middlewared
 app.use(express.json());
@@ -9,4 +12,40 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (_req: express.Request, res: express.Response) => {
     res.send(`we're in the store !`);
 });
+app.use('/user', userRouter);
+app.use(authProtect);
+app.use(isAdmin);
+app.use('/category', categoryRouter);
+// catching errors and return custom message, and 404 pages
+app.use(
+    (
+        err: Error,
+        req: express.Request,
+        res: express.Response,
+        _next: express.NextFunction
+    ) => {
+        console.log(`new error in the url ${req.url}`, err.message);
+        if (err.message.includes('env error'))
+            res.status(500).json({
+                error: 'server error please try again later'
+            });
+        if (err.message.includes(`couldn't`))
+            res.status(400).json({ error: err.message });
+        if (err.message.includes(`not authorized`))
+            res.status(401).json({ error: err.message });
+        else
+            res.status(500).json({
+                error: 'server error please try again later'
+            });
+    }
+);
+app.use(
+    (
+        _req: express.Request,
+        res: express.Response,
+        _next: express.NextFunction
+    ) => {
+        res.status(404).send('404 page');
+    }
+);
 export default app;

@@ -1,3 +1,4 @@
+import { Request } from 'express';
 export interface ModelBase<T, TDoc> {
     index(): Promise<TDoc[]>;
     show(id: string): Promise<TDoc>;
@@ -10,13 +11,15 @@ export enum UserRole {
     USER = 'user'
 }
 export interface User {
-    firstName: string;
-    lastName: string;
+    firstname: string;
+    lastname: string;
+    email: string;
     password: string;
     role: UserRole;
 }
 export interface UserDoc extends User {
     id: string;
+    createdat: Date;
 }
 export interface Product {
     name: string;
@@ -25,6 +28,8 @@ export interface Product {
 }
 export interface ProductDoc extends Product {
     id: string;
+    createdat: Date;
+    createdby: string;
 }
 export enum OrderState {
     COMPLETE = 'complete',
@@ -36,6 +41,8 @@ export interface Order {
 }
 export interface OrderDoc extends Order {
     id: string;
+    createdat: Date;
+    createdby: string;
 }
 export interface Category {
     name: string;
@@ -43,4 +50,10 @@ export interface Category {
 }
 export interface CategoryDoc extends Category {
     id: string;
+    createdat: Date;
+    createdby: string;
+}
+
+export interface UserInReq extends Request {
+    user?: UserDoc;
 }
