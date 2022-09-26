@@ -1,5 +1,5 @@
 import client from '../../utils/database.js';
-import { ModelBase, UserRole, User, UserDoc } from '../../utils/types.js';
+import { User, UserDoc } from '../../utils/types.js';
 import { createJWT } from '../../utils/auth.js';
 import bcrypt from 'bcrypt';
 // interface UserModelBase extends ModelBase<User, UserDoc> {
@@ -36,6 +36,23 @@ export class UserModel implements UserModelBase {
             throw new Error('env error [no BCRYPT_SALT || BCRYPT_ROUNDS]');
         const flag = await bcrypt.compare(pass + process.env.BCRYPT_SALT, hash);
         return flag;
+    }
+    /**
+     * only return admins to be used in the dashboard
+     * @returns UserDoc[]
+     */
+    async index(): Promise<UserDoc[]> {
+        try {
+            const conn = await client.connect();
+            const sql = "SELECT * FROM users WHERE role = 'admin';";
+            const users = await conn.query({
+                text: sql
+            });
+            conn.release();
+            return users.rows;
+        } catch (err) {
+            throw new Error(`couldn't get admins ${err}`);
+        }
     }
     /**
      * return token if the user was created successfully
