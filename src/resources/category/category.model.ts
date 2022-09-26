@@ -30,14 +30,14 @@ export class CategoryModel implements ModelBase<Category, CategoryDoc> {
             throw new Error(`couldn't get categories ${err}`);
         }
     }
-    async createOne(arg: Category): Promise<CategoryDoc> {
+    async createOne(userID: string, arg: Category): Promise<CategoryDoc> {
         try {
             const conn = await client.connect();
             const sql =
-                'INSERT INTO categories (name, description) VALUES ($1, $2) RETURNING *;';
+                'INSERT INTO categories (name, description,createdby) VALUES ($1, $2,$3) RETURNING *;';
             const categories = await conn.query({
                 text: sql,
-                values: [arg.name, arg.description]
+                values: [arg.name, arg.description, userID]
             });
             conn.release();
             return categories.rows[0];

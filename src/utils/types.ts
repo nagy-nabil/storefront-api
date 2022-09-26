@@ -2,7 +2,7 @@ import { Request } from 'express';
 export interface ModelBase<T, TDoc> {
     index(): Promise<TDoc[]>;
     show(id: string): Promise<TDoc>;
-    createOne(arg: T): Promise<TDoc>;
+    createOne(userID: string, arg: T): Promise<TDoc>;
     updateOne(id: string, arg: T): Promise<TDoc>;
     deleteOne(id: string): Promise<TDoc>;
 }

@@ -1,5 +1,6 @@
 import { CategoryModel } from './category.model.js';
 import { NextFunction, Request, Response } from 'express';
+import { UserInReq } from 'src/utils/types.js';
 const model = new CategoryModel();
 //category router routes
 async function index(_req: Request, res: Response, next: NextFunction) {
@@ -18,9 +19,10 @@ async function show(req: Request, res: Response, next: NextFunction) {
         next(err);
     }
 }
-async function createOne(req: Request, res: Response, next: NextFunction) {
+async function createOne(req: UserInReq, res: Response, next: NextFunction) {
     try {
-        const categories = await model.createOne(req.body);
+        if (!req.user) throw new Error('not authorized');
+        const categories = await model.createOne(req.user.id, req.body);
         res.json({ data: categories });
     } catch (err) {
         next(err);
