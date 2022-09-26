@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import userRouter from './resources/user/user.router.js';
 import categoryRouter from './resources/category/category.router.js';
 import orderRouter from './resources/order/order.router.js';
+import productRouter from './resources/product/product.router.js';
 import { authProtect, isAdmin } from './utils/auth.js';
 const app = express();
 // general middlewared
@@ -18,6 +19,7 @@ app.use(authProtect);
 app.use('/order', orderRouter);
 app.use(isAdmin);
 app.use('/category', categoryRouter);
+app.use('/product', productRouter);
 // catching errors and return custom message, and 404 pages
 app.use(
     (

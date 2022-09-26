@@ -1,6 +1,6 @@
 import { UserDoc, UserRole } from '../../utils/types';
 import { createJWT, verifyJWT } from '../../utils/auth';
-fdescribe('jwt testing', () => {
+describe('jwt testing', () => {
     const user: UserDoc = {
         id: '1',
         firstname: 'fir',
