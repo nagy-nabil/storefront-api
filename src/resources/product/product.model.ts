@@ -78,4 +78,18 @@ export class ProductModel implements ModelBase<Product, ProductDoc> {
             throw new Error(`couldn't delete products ${err}`);
         }
     }
+    async productsByCategory(catId: string): Promise<ProductDoc[]> {
+        try {
+            const conn = await client.connect();
+            const sql = 'SELECT * FROM products WHERE category = $1 ;';
+            const products = await conn.query({
+                text: sql,
+                values: [catId]
+            });
+            conn.release();
+            return products.rows;
+        } catch (err) {
+            throw new Error(`couldn't delete products ${err}`);
+        }
+    }
 }

@@ -44,10 +44,23 @@ async function deleteOne(req: Request, res: Response, next: NextFunction) {
         next(err);
     }
 }
+async function productsByCategory(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const products = await model.productsByCategory(req.params.catId);
+        res.json({ data: products });
+    } catch (err) {
+        next(err);
+    }
+}
 export default {
     index,
     show,
     createOne,
     updateOne,
-    deleteOne
+    deleteOne,
+    productsByCategory
 };

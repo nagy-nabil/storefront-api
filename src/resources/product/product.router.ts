@@ -11,4 +11,5 @@ productRouter
     .get(productController.show)
     .put(productController.updateOne)
     .delete(productController.deleteOne);
+productRouter.get('/category/:catId', productController.productsByCategory);
 export default productRouter;

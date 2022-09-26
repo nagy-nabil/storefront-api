@@ -26,7 +26,20 @@ async function signIn(
         next(err);
     }
 }
+async function index(
+    _req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
+    try {
+        const users = await model.index();
+        res.json({ data: users });
+    } catch (err) {
+        next(err);
+    }
+}
 export default {
     signUp,
-    signIn
+    signIn,
+    index
 };
