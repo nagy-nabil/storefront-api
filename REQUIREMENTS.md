@@ -7,8 +7,8 @@ These are the notes from a meeting with the frontend developer that describe wha
 #### Products
 - ✅ Index 
 - ✅ Show
-- ✅ Create [token required]
-- [OPTIONAL] Top 5 most popular products 
+- ✅ Create [token required] [only admins]
+- ✅[OPTIONAL] Top 5 most popular products 
 - ✅[OPTIONAL] Products by category (args: product category)
 
 #### Users

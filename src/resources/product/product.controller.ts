@@ -56,11 +56,24 @@ async function productsByCategory(
         next(err);
     }
 }
+async function popularProducts(
+    _req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const products = await model.popularProducts();
+        res.json({ data: products });
+    } catch (err) {
+        next(err);
+    }
+}
 export default {
     index,
     show,
     createOne,
     updateOne,
     deleteOne,
-    productsByCategory
+    productsByCategory,
+    popularProducts
 };

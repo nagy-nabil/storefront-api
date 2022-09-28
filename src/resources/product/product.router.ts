@@ -12,4 +12,8 @@ productRouter
     .put(productController.updateOne)
     .delete(productController.deleteOne);
 productRouter.get('/category/:catId', productController.productsByCategory);
+productRouter.get(
+    '/dashboard/popular-products',
+    productController.popularProducts
+);
 export default productRouter;

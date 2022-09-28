@@ -8,6 +8,10 @@ This repo contains a basic Node and Express app to get you started in constructi
 ```
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 ```
+```
+INSERT INTO order_product (orderid, productid,quantity) values ('78356623-4a72-4393-b3d5-478f20835eb0','1752ad99-e7eb-44c4-b851-6a854a52f3e8',20)
+ON CONFLICT (orderid,productid) DO UPDATE SET quantity = order_product.quantity + EXCLUDED.quantity;
+```
 
 ## env vars
 | VAR NAME      | REQUIRED                  | EXAMPLE    | DEFAULT | DESCRIPTION                                                          |

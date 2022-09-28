@@ -92,4 +92,16 @@ export class ProductModel implements ModelBase<Product, ProductDoc> {
             throw new Error(`couldn't delete products ${err}`);
         }
     }
+    async popularProducts(): Promise<ProductDoc[]> {
+        try {
+            const sql =
+                'SELECT productid , name , price, sum(quantity) as sum FROM order_product INNER JOIN products on order_product.productid = products.id GROUP BY productid, name, price ORDER BY sum DESC LIMIT 5;';
+            const conn = await client.connect();
+            const products = await conn.query({ text: sql });
+            conn.release();
+            return products.rows;
+        } catch (err) {
+            throw new Error(`couldn't get products ${err}`);
+        }
+    }
 }
