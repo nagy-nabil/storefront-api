@@ -4,7 +4,6 @@ p# Storefront Backend Project
 
 This repo contains a basic Node and Express app to get you started in constructing an API. To get started, clone this repo and run `yarn` in your terminal at the project root.
 ## PRE
-
 ```
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 ```
@@ -12,7 +11,8 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 INSERT INTO order_product (orderid, productid,quantity) values ('78356623-4a72-4393-b3d5-478f20835eb0','1752ad99-e7eb-44c4-b851-6a854a52f3e8',20)
 ON CONFLICT (orderid,productid) DO UPDATE SET quantity = order_product.quantity + EXCLUDED.quantity;
 ```
-
+## todo
+- [ ] check all auth
 ## env vars
 | VAR NAME      | REQUIRED                  | EXAMPLE    | DEFAULT | DESCRIPTION                                                          |
 |---------------|---------------------------|------------|---------|----------------------------------------------------------------------|

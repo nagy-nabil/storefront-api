@@ -102,4 +102,26 @@ export class UserModel implements UserModelBase {
             throw new Error(`couldn't sign in with error ${err}`);
         }
     }
+    /**
+     * give the admin apility to create another admins[staff]
+     * @param arg User
+     * @returns Promise<string>
+     */
+    async createAdmin(arg: User): Promise<string> {
+        try {
+            const conn = await client.connect();
+            const pass = await UserModel.passBcrypt(arg.password);
+            const sql =
+                "INSERT INTO users(firstname, lastname,email, password, role) VALUES ($1,$2,$3,$4,'admin') RETURNING *;";
+            const res = await conn.query({
+                text: sql,
+                values: [arg.firstname, arg.lastname, arg.email, pass]
+            });
+            conn.release();
+            const token = createJWT(res.rows[0]);
+            return token;
+        } catch (err) {
+            throw new Error(`couldn't create admin ${err}`);
+        }
+    }
 }

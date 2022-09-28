@@ -14,7 +14,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 #### Users
 - ✅Index [token required]
 - Show [token required]
-- Create N[token required]
+- Create N[token required] [only admin can create another admins from the dashboard]
 
 #### Orders
 - Current Order by user (args: user id)[token required]

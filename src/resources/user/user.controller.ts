@@ -38,8 +38,21 @@ async function index(
         next(err);
     }
 }
+async function createAdmin(
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
+    try {
+        const token = await model.createAdmin(req.body);
+        res.json({ token: token });
+    } catch (err) {
+        next(err);
+    }
+}
 export default {
     signUp,
     signIn,
-    index
+    index,
+    createAdmin
 };
