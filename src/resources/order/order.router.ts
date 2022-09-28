@@ -6,6 +6,7 @@ orderRouter
     .route('/')
     .get(orderController.index)
     .post(orderController.createOne);
+orderRouter.get('/completedOrders', orderController.completedOrders);
 orderRouter
     .route('/:id')
     .get(orderController.show)

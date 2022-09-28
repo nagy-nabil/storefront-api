@@ -95,4 +95,19 @@ export class OrderModel implements ModelBase<Order, OrderDoc> {
             throw new Error(`couldn't add to order ${orderId} ${err}`);
         }
     }
+    async completedOrders(user_id: string): Promise<OrderDoc[]> {
+        try {
+            const conn = await client.connect();
+            const sql =
+                "SELECT * FROM ORDERS WHERE user_id = $1 AND status = 'complete';";
+            const orders = await conn.query({
+                text: sql,
+                values: [user_id]
+            });
+            conn.release();
+            return orders.rows;
+        } catch (err) {
+            throw new Error(`couldn't get orders for user ${user_id} ${err}`);
+        }
+    }
 }

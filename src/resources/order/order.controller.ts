@@ -60,11 +60,25 @@ async function addProductToOrder(
         next(err);
     }
 }
+async function completedOrders(
+    req: UserInReq,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        if (!req.user) throw new Error('not authorized');
+        const orders = await model.completedOrders(req.user.id);
+        res.json({ data: orders });
+    } catch (err) {
+        next(err);
+    }
+}
 export default {
     index,
     show,
     createOne,
     updateOne,
     deleteOne,
-    addProductToOrder
+    addProductToOrder,
+    completedOrders
 };

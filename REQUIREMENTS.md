@@ -14,11 +14,11 @@ These are the notes from a meeting with the frontend developer that describe wha
 #### Users
 - ✅Index [token required]
 - Show [token required]
-- Create N[token required] [only admin can create another admins from the dashboard]
+- ✅Create N[token required] [only admin can create another admins from the dashboard]
 
 #### Orders
-- Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
+- Current Order by user (args: user id)[token required] [user could has only one open order at time]
+- ✅[OPTIONAL] Completed Orders by user (args: user id)[token required]
 
 ## Data Shapes
 #### ✅Product
