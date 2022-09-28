@@ -64,7 +64,7 @@ export class UserModel implements UserModelBase {
             const conn = await client.connect();
             const pass = await UserModel.passBcrypt(arg.password);
             const sql =
-                'INSERT INTO users(firstname, lastname,email, password) VALUES ($1,$2,$3,$4) RETURNING *;';
+                'INSERT INTO users(firstname, lastname,email, password) VALUES ($1,$2,$3,$4) RETURNING id,firstname, lastname, email, role;';
             const res = await conn.query({
                 text: sql,
                 values: [arg.firstname, arg.lastname, arg.email, pass]
@@ -73,7 +73,7 @@ export class UserModel implements UserModelBase {
             const token = createJWT(res.rows[0]);
             return token;
         } catch (err) {
-            throw new Error(`couldn't create user ${err}`);
+            throw new Error(`couldn't signup user ${err}`);
         }
     }
     /**
@@ -84,7 +84,8 @@ export class UserModel implements UserModelBase {
     async signIn(arg: { email: string; password: string }): Promise<string> {
         try {
             const conn = await client.connect();
-            const sql = 'SELECT * FROM users WHERE email = $1';
+            const sql =
+                'SELECT id, firstname, lastname, email,password,role FROM users WHERE email = $1';
             const user = await conn.query({
                 text: sql,
                 values: [arg.email]
@@ -96,7 +97,7 @@ export class UserModel implements UserModelBase {
                 user.rows[0].password
             );
             if (!flag) throw new Error('wrong password');
-            const token = createJWT(user.rows[0]);
+            const token = createJWT({ ...user.rows[0], password: undefined });
             return token;
         } catch (err) {
             throw new Error(`couldn't sign in with error ${err}`);
@@ -112,7 +113,7 @@ export class UserModel implements UserModelBase {
             const conn = await client.connect();
             const pass = await UserModel.passBcrypt(arg.password);
             const sql =
-                "INSERT INTO users(firstname, lastname,email, password, role) VALUES ($1,$2,$3,$4,'admin') RETURNING *;";
+                "INSERT INTO users(firstname, lastname,email, password, role) VALUES ($1,$2,$3,$4,'admin') RETURNING id,firstname, lastname, email, role;";
             const res = await conn.query({
                 text: sql,
                 values: [arg.firstname, arg.lastname, arg.email, pass]

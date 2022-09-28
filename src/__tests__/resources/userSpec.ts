@@ -1,21 +1,19 @@
+import { User, UserRole } from '../../utils/types.js';
 import { UserModel } from '../../resources/user/user.model.js';
+import { verifyJWT } from '../../utils/auth.js';
 describe('resources/user/user.model.ts testing', () => {
     const model = new UserModel();
+    const user: User = {
+        firstname: 'fir',
+        lastname: 'last',
+        email: 'email',
+        password: 'pass',
+        role: UserRole.ADMIN
+    };
+    let token!: string;
     describe('main methods exist', () => {
         it('index exist', () => {
             expect(model.index).toBeDefined();
-        });
-        it('show exist', () => {
-            expect(model.show).toBeDefined();
-        });
-        it('createOne exist', () => {
-            expect(model.createOne).toBeDefined();
-        });
-        it('updateOne exist', () => {
-            expect(model.updateOne).toBeDefined();
-        });
-        it('deleteOne exist', () => {
-            expect(model.deleteOne).toBeDefined();
         });
         it('signUp exist', () => {
             expect(model.signUp).toBeDefined();
@@ -45,6 +43,34 @@ describe('resources/user/user.model.ts testing', () => {
         it('verify return true with correct password', async () => {
             const flag = await UserModel.passverify(password, hash);
             expect(flag).toBeTrue();
+        });
+    });
+    describe('signup', () => {
+        it('with full data,success and return user token', async () => {
+            token = await model.signUp(user);
+            const payload = verifyJWT(token);
+            expect(payload.firstname).toEqual('fir');
+            expect(payload.role).toEqual('user');
+            expect(payload.password).toBeUndefined();
+        });
+        it('without full data will throw', async () => {
+            await expectAsync(
+                model.signUp({ firstname: 'fds' })
+            ).toBeRejected();
+        });
+    });
+    describe('signIn', () => {
+        it('with the right data return user token', async () => {
+            token = await model.signIn({ email: 'email', password: 'pass' });
+            const payload = verifyJWT(token);
+            expect(payload.firstname).toEqual('fir');
+            expect(payload.role).toEqual('user');
+            expect(payload.email).toEqual('email');
+            expect(payload.password).toBeUndefined();
+        });
+        it('without email or password throw', async () => {
+            await expectAsync(model.signIn({password:'33'})).toBeRejected();
+            await expectAsync(model.signIn({email:'33'})).toBeRejected();
         });
     });
 });
