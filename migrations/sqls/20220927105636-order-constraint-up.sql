@@ -1,0 +1,1 @@
+ALTER TABLE orders ADD CONSTRAINT order_status_check CHECK( status = 'active' OR status = 'complete');
