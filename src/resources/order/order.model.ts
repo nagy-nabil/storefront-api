@@ -76,4 +76,23 @@ export class OrderModel implements ModelBase<Order, OrderDoc> {
             throw new Error(`couldn't delete orders ${err}`);
         }
     }
+    async addProductToOrder(
+        orderId: string,
+        productId: string,
+        amount: number
+    ): Promise<OrderDoc> {
+        try {
+            const conn = await client.connect();
+            const sql =
+                'INSERT INTO order_product(orderid, productid, quantity) VALUES ($1,$2,$3) RETURNING *;';
+            const orders = await conn.query({
+                text: sql,
+                values: [orderId, productId, amount]
+            });
+            conn.release();
+            return orders.rows[0];
+        } catch (err) {
+            throw new Error(`couldn't add to order ${orderId} ${err}`);
+        }
+    }
 }

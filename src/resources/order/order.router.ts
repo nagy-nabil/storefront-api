@@ -11,4 +11,5 @@ orderRouter
     .get(orderController.show)
     .put(orderController.updateOne)
     .delete(orderController.deleteOne);
+orderRouter.post('/addtoorder/:orderid', orderController.addProductToOrder);
 export default orderRouter;

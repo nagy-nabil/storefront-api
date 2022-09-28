@@ -44,10 +44,27 @@ async function deleteOne(req: Request, res: Response, next: NextFunction) {
         next(err);
     }
 }
+async function addProductToOrder(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const orders = await model.addProductToOrder(
+            req.params.orderid,
+            req.body.productid,
+            req.body.quantity
+        );
+        res.json({ data: orders });
+    } catch (err) {
+        next(err);
+    }
+}
 export default {
     index,
     show,
     createOne,
     updateOne,
-    deleteOne
+    deleteOne,
+    addProductToOrder
 };
