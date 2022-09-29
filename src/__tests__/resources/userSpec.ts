@@ -69,8 +69,8 @@ describe('resources/user/user.model.ts testing', () => {
             expect(payload.password).toBeUndefined();
         });
         it('without email or password throw', async () => {
-            await expectAsync(model.signIn({password:'33'})).toBeRejected();
-            await expectAsync(model.signIn({email:'33'})).toBeRejected();
+            await expectAsync(model.signIn({ password: '33' })).toBeRejected();
+            await expectAsync(model.signIn({ email: '33' })).toBeRejected();
         });
     });
 });
