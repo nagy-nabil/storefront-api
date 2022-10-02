@@ -95,6 +95,24 @@ export class OrderModel implements ModelBase<Order, OrderDoc> {
             throw new Error(`couldn't add to order ${orderId} ${err}`);
         }
     }
+    async activeOrderMeta(userId: string): Promise<OrderDoc> {
+        try {
+            const conn = await client.connect();
+            const sql =
+                "SELECT * FROM orders WHERE user_id = $1 AND status = 'active';";
+            const orders = await conn.query({
+                text: sql,
+                values: [userId]
+            });
+            conn.release();
+            if (orders.rowCount < 1)
+                throw new Error('no active order for that user');
+            return orders.rows[0];
+        } catch (err) {
+            throw new Error(`couldn't get active order meta data ${err}`);
+        }
+    }
+
     async completedOrders(user_id: string): Promise<OrderDoc[]> {
         try {
             const conn = await client.connect();

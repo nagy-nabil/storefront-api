@@ -48,6 +48,13 @@ describe('resources/order/order.model.ts testing', () => {
             await expectAsync(model.index()).toBeResolvedTo([res]);
         });
     });
+    describe('get active order by the user', () => {
+        it('active order must be the same as the one has been created', async () => {
+            await expectAsync(model.activeOrderMeta(userId)).toBeResolvedTo(
+                res
+            );
+        });
+    });
     describe('update order to be completed ', () => {
         beforeAll(() => {
             res.status = OrderState.COMPLETE;
@@ -59,6 +66,9 @@ describe('resources/order/order.model.ts testing', () => {
             await expectAsync(model.completedOrders(userId)).toBeResolvedTo([
                 res
             ]);
+        });
+        it('active order will throw', async () => {
+            await expectAsync(model.activeOrderMeta(userId)).toBeRejected();
         });
     });
 });
