@@ -1,6 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
-import {userRouter, userRouterAdmin} from './resources/user/user.router.js';
+import { userRouter, userRouterAdmin } from './resources/user/user.router.js';
 import categoryRouter from './resources/category/category.router.js';
 import orderRouter from './resources/order/order.router.js';
 import {
