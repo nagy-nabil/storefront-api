@@ -24,6 +24,28 @@ export class CartQuery {
         }
     }
     /**
+     * only return id for products in the order
+     * @param orderId string
+     * @returns Promise<ProductDoc[]>
+     */
+    async orderProducts(orderId: string): Promise<ProductDoc[]> {
+        try {
+            const conn = await client.connect();
+            const sql =
+                'SELECT productid from order_product WHERE orderid = $1;';
+            const products = await conn.query({
+                text: sql,
+                values: [orderId]
+            });
+            conn.release();
+            return products.rows;
+        } catch (err) {
+            throw new Error(
+                `couldn't get order prodcuts for order ${orderId} ${err}`
+            );
+        }
+    }
+    /**
      * function return current active order with its products
      * @param userId string
      * @returns Promise<OrderDoc & { products: ProductDoc[] }>
