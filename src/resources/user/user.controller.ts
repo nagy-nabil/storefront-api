@@ -8,6 +8,15 @@ async function signUp(
     next: NextFunction
 ): Promise<void> {
     try {
+        if (
+            !req.body.firstname ||
+            !req.body.lastname ||
+            !req.body.email ||
+            !req.body.password
+        )
+            throw new Error(
+                'must get firstname, lastname, email and password in the request body'
+            );
         const token = await model.signUp(req.body);
         res.json({ token: token });
     } catch (err) {
@@ -20,6 +29,8 @@ async function signIn(
     next: NextFunction
 ): Promise<void> {
     try {
+        if (!req.body.password || !req.body.email)
+            throw new Error('must get email and password in the request body');
         const token = await model.signIn(req.body);
         res.json({ token: token });
     } catch (err) {
@@ -44,6 +55,15 @@ async function createAdmin(
     next: NextFunction
 ): Promise<void> {
     try {
+        if (
+            !req.body.firstname ||
+            !req.body.lastname ||
+            !req.body.email ||
+            !req.body.password
+        )
+            throw new Error(
+                'must get firstname, lastname, email and password in the request body'
+            );
         const token = await model.createAdmin(req.body);
         res.json({ token: token });
     } catch (err) {

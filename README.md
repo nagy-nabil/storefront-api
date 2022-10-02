@@ -11,6 +11,14 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 INSERT INTO order_product (orderid, productid,quantity) values ('78356623-4a72-4393-b3d5-478f20835eb0','1752ad99-e7eb-44c4-b851-6a854a52f3e8',20)
 ON CONFLICT (orderid,productid) DO UPDATE SET quantity = order_product.quantity + EXCLUDED.quantity;
 ```
+## privileges 
+> note that database must be shipped with already exist admin
+- any user could sign in/up [ no token required ]
+- any user could see the products [maybe the main page in the frontend] [ no token required ]
+- any signed user could create, read, update and delete order [ token required ]
+- only ***admin*** could ALTER [ create/update/delete ] products [ token required, with user of role **admin** ]
+- only ***admin*** could ALTER [ create/update/delete ] categories [ token required, with user of role **admin** ]
+- only ***admin*** could create another admins [ no sign up page for admins/ the super admin only could create another ones from the dashboard ]  [ token required, with user of role **admin** ]
 ## todo
 - [ ] check all auth
 ## env vars

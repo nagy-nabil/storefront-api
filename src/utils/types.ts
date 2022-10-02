@@ -53,7 +53,8 @@ export interface CategoryDoc extends Category {
     createdat: Date;
     createdby: string;
 }
-
+//extend express request to add to it user data through middleware authProtect and then use this user in other controllers
+//* so any controller needs user data can use UserInReq interface to get access to user data[this data is created from the token send by the user]
 export interface UserInReq extends Request {
     user?: UserDoc;
 }

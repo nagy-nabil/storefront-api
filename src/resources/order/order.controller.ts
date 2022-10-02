@@ -11,6 +11,7 @@ async function index(_req: Request, res: Response, next: NextFunction) {
         next(err);
     }
 }
+//get the order id from req params
 async function show(req: Request, res: Response, next: NextFunction) {
     try {
         const orders = await model.show(req.params.id);
@@ -19,6 +20,7 @@ async function show(req: Request, res: Response, next: NextFunction) {
         next(err);
     }
 }
+//get the user id from req body through middle ware authProtect
 async function createOne(req: UserInReq, res: Response, next: NextFunction) {
     try {
         if (!req.user) throw new Error('not authorized');
@@ -28,14 +30,18 @@ async function createOne(req: UserInReq, res: Response, next: NextFunction) {
         next(err);
     }
 }
+//get order id from req params, order data from the req body
 async function updateOne(req: Request, res: Response, next: NextFunction) {
     try {
+        if (!req.body.status)
+            throw new Error('must get order status in the request body');
         const orders = await model.updateOne(req.params.id, req.body);
         res.json({ data: orders });
     } catch (err) {
         next(err);
     }
 }
+//order id from req params
 async function deleteOne(req: Request, res: Response, next: NextFunction) {
     try {
         const orders = await model.deleteOne(req.params.id);
@@ -44,12 +50,17 @@ async function deleteOne(req: Request, res: Response, next: NextFunction) {
         next(err);
     }
 }
+//order id from req params, productid and quantity from req body
 async function addProductToOrder(
     req: Request,
     res: Response,
     next: NextFunction
 ) {
     try {
+        if (!req.body.quantity || !req.body.productid)
+            throw new Error(
+                'must get productid and quantity in the request body'
+            );
         const orders = await model.addProductToOrder(
             req.params.orderid,
             req.body.productid,
@@ -60,6 +71,7 @@ async function addProductToOrder(
         next(err);
     }
 }
+//get the user id from req body through middle ware authProtect
 async function completedOrders(
     req: UserInReq,
     res: Response,

@@ -11,6 +11,7 @@ async function index(_req: Request, res: Response, next: NextFunction) {
         next(err);
     }
 }
+// id from req params
 async function show(req: Request, res: Response, next: NextFunction) {
     try {
         const products = await model.show(req.params.id);
@@ -19,23 +20,34 @@ async function show(req: Request, res: Response, next: NextFunction) {
         next(err);
     }
 }
+//get the user id from req body through middle ware authProtect
 async function createOne(req: UserInReq, res: Response, next: NextFunction) {
     try {
         if (!req.user) throw new Error('not authorized');
+        if (!req.body.name || !req.body.price || !req.body.category)
+            throw new Error(
+                'must get name, price and category in the request body'
+            );
         const products = await model.createOne(req.user.id, req.body);
         res.json({ data: products });
     } catch (err) {
         next(err);
     }
 }
+// get product id from req params
 async function updateOne(req: Request, res: Response, next: NextFunction) {
     try {
+        if (!req.body.name || !req.body.price || !req.body.category)
+            throw new Error(
+                'must get name, price and category in the request body'
+            );
         const products = await model.updateOne(req.params.id, req.body);
         res.json({ data: products });
     } catch (err) {
         next(err);
     }
 }
+//get id from req params
 async function deleteOne(req: Request, res: Response, next: NextFunction) {
     try {
         const products = await model.deleteOne(req.params.id);
@@ -44,6 +56,7 @@ async function deleteOne(req: Request, res: Response, next: NextFunction) {
         next(err);
     }
 }
+// get category id from req params as [catId]
 async function productsByCategory(
     req: Request,
     res: Response,
