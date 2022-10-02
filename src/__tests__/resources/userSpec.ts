@@ -53,11 +53,6 @@ describe('resources/user/user.model.ts testing', () => {
             expect(payload.role).toEqual('user');
             expect(payload.password).toBeUndefined();
         });
-        it('without full data will throw', async () => {
-            await expectAsync(
-                model.signUp({ firstname: 'fds' })
-            ).toBeRejected();
-        });
     });
     describe('signIn', () => {
         it('with the right data return user token', async () => {
@@ -67,10 +62,6 @@ describe('resources/user/user.model.ts testing', () => {
             expect(payload.role).toEqual('user');
             expect(payload.email).toEqual('email');
             expect(payload.password).toBeUndefined();
-        });
-        it('without email or password throw', async () => {
-            await expectAsync(model.signIn({ password: '33' })).toBeRejected();
-            await expectAsync(model.signIn({ email: '33' })).toBeRejected();
         });
     });
 });
