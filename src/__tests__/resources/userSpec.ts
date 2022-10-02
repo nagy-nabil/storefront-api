@@ -53,6 +53,9 @@ describe('resources/user/user.model.ts testing', () => {
             expect(payload.role).toEqual('user');
             expect(payload.password).toBeUndefined();
         });
+        it('can not use the same email again', async () => {
+            await expectAsync(model.signUp(user)).toBeRejected();
+        });
     });
     describe('signIn', () => {
         it('with the right data return user token', async () => {
@@ -62,6 +65,14 @@ describe('resources/user/user.model.ts testing', () => {
             expect(payload.role).toEqual('user');
             expect(payload.email).toEqual('email');
             expect(payload.password).toBeUndefined();
+        });
+        it('throw with wrong email or password', async () => {
+            await expectAsync(
+                model.signIn({ email: 'nothere', password: 'pass' })
+            ).toBeRejected();
+            await expectAsync(
+                model.signIn({ email: 'email', password: 'wrongpassword' })
+            ).toBeRejected();
         });
     });
 });
