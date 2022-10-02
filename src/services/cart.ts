@@ -11,13 +11,13 @@ export class CartQuery {
         try {
             const conn = await client.connect();
             const sql =
-                "SELECT * FROM ORDERS WHERE user_id = $1 AND status = 'active';";
+                "SELECT * FROM orders WHERE user_id = $1 AND status = 'active';";
             const orders = await conn.query({
                 text: sql,
                 values: [userId]
             });
-            if (orders.rowCount < 1) throw new Error('no active order');
             conn.release();
+            if (orders.rowCount < 1) throw new Error('no active order');
             return orders.rows[0];
         } catch (err) {
             throw new Error(`couldn't get order for user ${userId} ${err}`);

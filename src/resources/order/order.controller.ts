@@ -1,7 +1,9 @@
 import { OrderModel } from './order.model.js';
+import { CartQuery } from '../../services/cart.js';
 import { NextFunction, Request, Response } from 'express';
 import { UserInReq } from 'src/utils/types.js';
 const model = new OrderModel();
+const cartModel = new CartQuery();
 //category router routes
 async function index(_req: Request, res: Response, next: NextFunction) {
     try {
@@ -20,7 +22,7 @@ async function show(req: Request, res: Response, next: NextFunction) {
         next(err);
     }
 }
-//get the user id from req body through middle ware authProtect
+//get the user id from req attribuites through middle ware authProtect
 async function createOne(req: UserInReq, res: Response, next: NextFunction) {
     try {
         if (!req.user) throw new Error('not authorized');
@@ -71,7 +73,7 @@ async function addProductToOrder(
         next(err);
     }
 }
-//get the user id from req body through middle ware authProtect
+//get the user id from req attribuites through middle ware authProtect
 async function completedOrders(
     req: UserInReq,
     res: Response,
@@ -85,6 +87,36 @@ async function completedOrders(
         next(err);
     }
 }
+// cart model can be added to order controllers
+//get user id from req attribuites through middle ware authProtect
+async function userActiveOrder(
+    req: UserInReq,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        if (!req.user) throw new Error('not authorized');
+        const orders = await cartModel.userActiveOrder(req.user.id);
+        res.json({ data: orders });
+    } catch (err) {
+        next(err);
+    }
+}
+//get user id from req attribuites through middle ware authProtect
+async function orderWithProducts(
+    req: UserInReq,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        if (!req.user) throw new Error('not authorized');
+        const orders = await cartModel.orderWithProducts(req.user.id);
+        res.json({ data: orders });
+    } catch (err) {
+        next(err);
+    }
+}
+
 export default {
     index,
     show,
@@ -92,5 +124,7 @@ export default {
     updateOne,
     deleteOne,
     addProductToOrder,
-    completedOrders
+    completedOrders,
+    userActiveOrder,
+    orderWithProducts
 };
