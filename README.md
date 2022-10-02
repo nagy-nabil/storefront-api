@@ -15,6 +15,7 @@ ON CONFLICT (orderid,productid) DO UPDATE SET quantity = order_product.quantity 
 > note that database must be shipped with already exist admin
 - any user could sign in/up [ no token required ]
 - any user could see the products [maybe the main page in the frontend] [ no token required ]
+- any user could search the products by category [ no token required ]
 - any signed user could create, read, update and delete order [ token required ]
 - only ***admin*** could ALTER [ create/update/delete ] products [ token required, with user of role **admin** ]
 - only ***admin*** could ALTER [ create/update/delete ] categories [ token required, with user of role **admin** ]
