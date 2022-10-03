@@ -29,7 +29,7 @@ async function createOne(req: UserInReq, res: Response, next: NextFunction) {
                 'must get name, price and category in the request body'
             );
         const products = await model.createOne(req.user.id, req.body);
-        res.json({ data: products });
+        res.status(201).json({ data: products });
     } catch (err) {
         next(err);
     }

@@ -29,7 +29,7 @@ async function createOne(req: UserInReq, res: Response, next: NextFunction) {
         if (!req.body.name || !req.body.description)
             throw new Error('must get name, description in the request body');
         const categories = await model.createOne(req.user.id, req.body);
-        res.json({ data: categories });
+        res.status(201).json({ data: categories });
     } catch (err) {
         next(err);
     }

@@ -27,7 +27,7 @@ async function createOne(req: UserInReq, res: Response, next: NextFunction) {
     try {
         if (!req.user) throw new Error('not authorized');
         const orders = await model.createOne(req.user.id);
-        res.json({ data: orders });
+        res.status(201).json({ data: orders });
     } catch (err) {
         next(err);
     }
