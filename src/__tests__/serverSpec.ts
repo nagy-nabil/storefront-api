@@ -4,6 +4,8 @@ const superApp = Request(App);
 describe('server running', () => {
     let normalUserToken!: string;
     let adminUserToken!: string;
+    let categoryId!: string;
+    let productId!: string;
     it('main end point "/"', async (): Promise<void> => {
         const res = await superApp.get('/');
         expect(res.statusCode).toBe(200);
@@ -107,7 +109,6 @@ describe('server running', () => {
         });
     });
     describe('category end points tests[all category routes are done by the admin only]', () => {
-        let categoryId!: string;
         describe('index', () => {
             it('can not do request without token', async () => {
                 const res = await superApp.get('/category');
@@ -189,11 +190,120 @@ describe('server running', () => {
                 expect(res.statusCode).toBe(200);
             });
             it('delete category with non exist id must fail ', async () => {
-                const res = await superApp
+                //re create the category for the next tests
+                let res = await superApp
                     .delete(`/category/${categoryId}`)
+                    .set('authorization', `Bearer ${adminUserToken}`);
+                expect(res.statusCode).toBe(400);
+                res = await superApp
+                    .post('/category')
+                    .set('authorization', `Bearer ${adminUserToken}`)
+                    .send({
+                        name: 'newcate',
+                        description: 'desc'
+                    });
+                categoryId = res.body.data.id;
+            });
+        });
+    });
+    describe('product end points tests', () => {
+        describe('index', () => {
+            it('get all products without token', async () => {
+                const res = await superApp.get('/product');
+                expect(res.statusCode).toBe(200);
+            });
+        });
+        describe('createOne[only for admins]', () => {
+            it('create one successfully with admin token', async () => {
+                const res = await superApp
+                    .post('/product-admin')
+                    .set('authorization', `Bearer ${adminUserToken}`)
+                    .send({
+                        name: 'newproduc324',
+                        price: '980',
+                        category: categoryId
+                    });
+                expect(res.statusCode).toBe(201);
+                productId = res.body.data.id;
+            });
+            it('create one with normal user token must fail', async () => {
+                const res = await superApp
+                    .post('/product-admin')
+                    .set('authorization', `Bearer ${normalUserToken}`)
+                    .send({
+                        name: 'newproduc3242143',
+                        price: '980',
+                        category: categoryId
+                    });
+                expect(res.statusCode).toBe(401);
+            });
+        });
+        describe('show', () => {
+            it('get one product with its id with any user token successfully', async () => {
+                const res = await superApp
+                    .get(`/product/${productId}`)
+                    .set('authorization', `Bearer ${adminUserToken}`);
+                expect(res.statusCode).toBe(200);
+            });
+            it('get one product with non exist id must fail', async () => {
+                const res = await superApp
+                    .get(`/product/zzzzzzzz-3b6f-4998-9592-zzzzzzzzzzza`)
                     .set('authorization', `Bearer ${adminUserToken}`);
                 expect(res.statusCode).toBe(400);
             });
         });
+        // describe('updateOne[only for admins]', () => {
+        //     it('update product with its id with admin token successfully and complete req body', async () => {
+        //         const res = await superApp
+        //             .put(`/product-admin/${productId}`)
+        //             .set('authorization', `Bearer ${adminUserToken}`)
+        //             .send({
+        //                 name: 'newproduc3241',
+        //                 price: '9312',
+        //                 category: categoryId
+        //             });
+        //         expect(res.statusCode).toBe(200);
+        //     });
+        //     it('update product with its id but not complete req body', async () => {
+        //         const res = await superApp
+        //             .put(`/product-admin/${productId}`)
+        //             .set('authorization', `Bearer ${adminUserToken}`);
+        //         expect(res.statusCode).toBe(400);
+        //     });
+        //     it('update product with non exist id must fail ', async () => {
+        //         const res = await superApp
+        //             .put(`/product-admin/zzzzzzzz-3b6f-4998-9592-zzzzzzzzzzza`)
+        //             .set('authorization', `Bearer ${adminUserToken}`)
+        //             .send({
+        //                 name: 'updatednewcprod324',
+        //                 price: '925',
+        //                 category: categoryId
+        //             });
+        //         expect(res.statusCode).toBe(400);
+        //     });
+        // });
+        // describe('deleteOne[only admins]', () => {
+        //     it('delete product with its id', async () => {
+        //         const res = await superApp
+        //             .delete(`/product-admin/${productId}`)
+        //             .set('authorization', `Bearer ${adminUserToken}`);
+        //         expect(res.statusCode).toBe(200);
+        //     });
+        //     it('delete product with non exist id must fail ', async () => {
+        //         let res = await superApp
+        //             .delete(`/product-admin/${productId}`)
+        //             .set('authorization', `Bearer ${adminUserToken}`);
+        //         expect(res.statusCode).toBe(400);
+        //         res = await superApp
+        //             .post('/product-admin')
+        //             .set('authorization', `Bearer ${adminUserToken}`)
+        //             .send({
+        //                 name: 'newproduc324',
+        //                 price: '980',
+        //                 category: categoryId
+        //             });
+        //         productId = res.body.data.id;
+        //     });
+        // });
     });
 });
