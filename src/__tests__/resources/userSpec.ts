@@ -13,7 +13,7 @@ describe('resources/user/user.model.ts testing', () => {
     let token!: string;
     describe('main methods exist', () => {
         it('index exist', () => {
-            expect(model.index).toBeDefined();
+            expect(model.indexAdmins).toBeDefined();
         });
         it('signUp exist', () => {
             expect(model.signUp).toBeDefined();

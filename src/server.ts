@@ -47,6 +47,8 @@ app.use(
             res.status(400).json({ error: err.message });
         else if (err.message.includes(`not authorized`))
             res.status(401).json({ error: err.message });
+        else if (err.message.includes(`must get`))
+            res.status(400).json({ error: err.message });
         else
             res.status(500).json({
                 error: 'server error please try again later'

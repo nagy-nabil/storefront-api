@@ -18,7 +18,7 @@ async function signUp(
                 'must get firstname, lastname, email and password in the request body'
             );
         const token = await model.signUp(req.body);
-        res.json({ token: token });
+        res.status(201).json({ token: token });
     } catch (err) {
         next(err);
     }
@@ -32,18 +32,18 @@ async function signIn(
         if (!req.body.password || !req.body.email)
             throw new Error('must get email and password in the request body');
         const token = await model.signIn(req.body);
-        res.json({ token: token });
+        res.status(201).json({ token: token });
     } catch (err) {
         next(err);
     }
 }
-async function index(
+async function indexAdmins(
     _req: Request,
     res: Response,
     next: NextFunction
 ): Promise<void> {
     try {
-        const users = await model.index();
+        const users = await model.indexAdmins();
         res.json({ data: users });
     } catch (err) {
         next(err);
@@ -65,7 +65,7 @@ async function createAdmin(
                 'must get firstname, lastname, email and password in the request body'
             );
         const token = await model.createAdmin(req.body);
-        res.json({ token: token });
+        res.status(201).json({ token: token });
     } catch (err) {
         next(err);
     }
@@ -73,6 +73,6 @@ async function createAdmin(
 export default {
     signUp,
     signIn,
-    index,
+    indexAdmins,
     createAdmin
 };

@@ -41,10 +41,11 @@ export class UserModel implements UserModelBase {
      * only return admins to be used in the dashboard
      * @returns UserDoc[]
      */
-    async index(): Promise<UserDoc[]> {
+    async indexAdmins(): Promise<UserDoc[]> {
         try {
             const conn = await client.connect();
-            const sql = "SELECT * FROM users WHERE role = 'admin';";
+            const sql =
+                "SELECT id, firstname, lastname, email, role FROM users WHERE role = 'admin';";
             const users = await conn.query({
                 text: sql
             });

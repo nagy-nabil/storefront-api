@@ -9,5 +9,5 @@ userRouter.post('/signup', userController.signUp);
 userRouter.post('/signin', userController.signIn);
 // [admins]
 userRouterAdmin.route('/').post(userController.createAdmin);
-userRouterAdmin.route('/admins').get(userController.index);
+userRouterAdmin.route('/admins').get(userController.indexAdmins);
 export { userRouter, userRouterAdmin };
