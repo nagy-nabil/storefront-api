@@ -31,7 +31,7 @@ export function authProtect(
         //get the token after Bearer
         const token = auth.split(' ')[1];
         const payload = verifyJWT(token);
-        if (!payload.role) throw new Error('invaild token');
+        if (!payload.role || !payload.id) throw new Error('invaild token');
         req.user = payload;
         next();
     } catch (err) {

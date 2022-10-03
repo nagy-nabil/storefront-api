@@ -8,8 +8,6 @@ const userRouterAdmin = Router();
 userRouter.post('/signup', userController.signUp);
 userRouter.post('/signin', userController.signIn);
 // [admins]
-userRouterAdmin
-    .route('/')
-    .get(userController.index)
-    .post(userController.createAdmin);
+userRouterAdmin.route('/').post(userController.createAdmin);
+userRouterAdmin.route('/admins').get(userController.index);
 export { userRouter, userRouterAdmin };

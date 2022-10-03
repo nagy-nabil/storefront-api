@@ -17,14 +17,19 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (_req: express.Request, res: express.Response) => {
     res.send(`we're in the store !`);
 });
+// no token required
 app.use('/user', userRouter);
-app.use(authProtect);
-app.use('/order', orderRouter);
 app.use('/product', productRouter);
-app.use(isAdmin);
-app.use('/category', categoryRouter);
-app.use('/product-admin', productRouterAdmin);
-app.use('/user-admin', userRouterAdmin);
+// token required
+// app.use(authProtect);
+app.use('/order', [authProtect], orderRouter);
+// only admins end points
+// app.use(isAdmin);
+app.use('/category', [authProtect, isAdmin], categoryRouter);
+app.use('/product-admin', [authProtect, isAdmin], productRouterAdmin);
+app.use('/user-admin', [authProtect, isAdmin], userRouterAdmin);
+// app.use('/productAdmin', productRouterAdmin);
+// app.use('/userAdmin', userRouterAdmin);
 // catching errors and return custom message, and 404 pages
 app.use(
     (
@@ -38,9 +43,9 @@ app.use(
             res.status(500).json({
                 error: 'server error please try again later'
             });
-        if (err.message.includes(`couldn't`))
+        else if (err.message.includes(`couldn't`))
             res.status(400).json({ error: err.message });
-        if (err.message.includes(`not authorized`))
+        else if (err.message.includes(`not authorized`))
             res.status(401).json({ error: err.message });
         else
             res.status(500).json({
