@@ -68,7 +68,7 @@ async function addProductToOrder(
             req.body.productid,
             req.body.quantity
         );
-        res.json({ data: orders });
+        res.status(201).json({ data: orders });
     } catch (err) {
         next(err);
     }

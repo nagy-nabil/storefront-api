@@ -5,6 +5,7 @@ let normalUserToken!: string;
 let adminUserToken!: string;
 let categoryId!: string;
 let productId!: string;
+let orderId!: string;
 describe('server running', () => {
     describe('main end point', () => {
         it('main end point "/"', async (): Promise<void> => {
@@ -293,5 +294,68 @@ describe('product end points tests', () => {
                 });
             productId = res.body.data.id;
         });
+    });
+});
+describe('order tests', () => {
+    it('create order for the user', async () => {
+        const res = await superApp
+            .post('/order')
+            .set('authorization', `Bearer ${normalUserToken}`);
+        orderId = res.body.data.id;
+        expect(res.statusCode).toBe(201);
+    });
+    it('add product to the active order', async () => {
+        const res = await superApp
+            .post(`/order/addtoorder/${orderId}`)
+            .send({
+                productid: productId,
+                quantity: 200
+            })
+            .set('authorization', `Bearer ${normalUserToken}`);
+        expect(res.statusCode).toBe(201);
+    });
+    it('must return empty completed orders', async () => {
+        const res = await superApp
+            .get(`/order/completedorders`)
+            .set('authorization', `Bearer ${normalUserToken}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body.data).toEqual([]);
+    });
+    it('active order throw if do not has one', async () => {
+        const res = await superApp
+            .get(`/order/activeorder`)
+            .set('authorization', `Bearer ${adminUserToken}`);
+        expect(res.statusCode).toBe(400);
+    });
+    it('active order exist', async () => {
+        const res = await superApp
+            .get(`/order/activeorder`)
+            .set('authorization', `Bearer ${normalUserToken}`);
+        expect(res.statusCode).toBe(200);
+    });
+    it('get order data with its products data[NOT PRODUCTS META DATA]', async () => {
+        const res = await superApp
+            .get(`/order/orderproducts`)
+            .set('authorization', `Bearer ${normalUserToken}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body.data.id).toEqual(orderId);
+        expect(res.body.data.products[0].id).toEqual(productId);
+    });
+    it('complete order using updateOne', async () => {
+        const res = await superApp
+            .put(`/order/${orderId}`)
+            .send({
+                status: 'complete'
+            })
+            .set('authorization', `Bearer ${normalUserToken}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body.data.status).toEqual('complete');
+    });
+    it('complete orders return array of one completed order', async () => {
+        const res = await superApp
+            .get(`/order/completedorders`)
+            .set('authorization', `Bearer ${normalUserToken}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body.data[0].id).toEqual(orderId);
     });
 });
