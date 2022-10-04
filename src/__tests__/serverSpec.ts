@@ -1,5 +1,6 @@
 import Request from 'supertest';
 import App from '../server.js';
+import { UserModel } from '../resources/user/user.model.js';
 const superApp = Request(App);
 let normalUserToken!: string;
 let adminUserToken!: string;

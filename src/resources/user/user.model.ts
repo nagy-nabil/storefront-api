@@ -37,6 +37,28 @@ export class UserModel implements UserModelBase {
         const flag = await bcrypt.compare(pass + process.env.BCRYPT_SALT, hash);
         return flag;
     }
+
+    /**
+     *! only used to init the database with admin not supposed to be used in middlewares
+     * ,create admin if first time for the database or do nothing
+     * @returns Promise<void>
+     */
+    static async initDbWithAdmin(): Promise<void> {
+        try {
+            const conn = await client.connect();
+            const pass = await UserModel.passBcrypt('admin');
+            const sql =
+                "INSERT INTO users (firstname, lastname, email, password) VALUES ('admin', 'admin','admin',$1) ON CONFLICT DO NOTHING;";
+            await conn.query({
+                text: sql,
+                values: [pass]
+            });
+            conn.release();
+            return;
+        } catch (err) {
+            throw new Error(`couldn't get admins ${err}`);
+        }
+    }
     /**
      * only return admins to be used in the dashboard
      * @returns UserDoc[]
@@ -127,3 +149,4 @@ export class UserModel implements UserModelBase {
         }
     }
 }
+UserModel.initDbWithAdmin();

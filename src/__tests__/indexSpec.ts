@@ -1,3 +1,7 @@
 import { config } from 'dotenv';
-config();
-process.env.ENV = 'test';
+import { UserModel } from '../resources/user/user.model.js';
+async function initTests() {
+    config();
+    process.env.ENV = 'test';
+    await UserModel.initDbWithAdmin();
+}

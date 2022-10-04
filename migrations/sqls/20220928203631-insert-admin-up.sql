@@ -1,1 +1,1 @@
-INSERT INTO users (firstname, lastname, email,password, role) values ('admin','admin','admin','$2b$10$MV5SU3K3DswJ6/nhF0gaDuj5erANEP8brEwfdsynoV/8x0JQRbd8S','admin');
+-- INSERT INTO users (firstname, lastname, email,password, role) values ('admin','admin','admin','$2b$10$MV5SU3K3DswJ6/nhF0gaDuj5erANEP8brEwfdsynoV/8x0JQRbd8S','admin');
