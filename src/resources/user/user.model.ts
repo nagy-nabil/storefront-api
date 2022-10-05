@@ -1,6 +1,7 @@
 import client from '../../utils/database.js';
 import { User, UserDoc } from '../../utils/types.js';
 import { createJWT } from '../../utils/auth.js';
+import { callbackify } from 'util';
 import bcrypt from 'bcrypt';
 // interface UserModelBase extends ModelBase<User, UserDoc> {
 //     signUp(arg: User): Promise<string>;
@@ -45,10 +46,11 @@ export class UserModel implements UserModelBase {
      */
     static async initDbWithAdmin(): Promise<void> {
         try {
+            console.log('in');
             const conn = await client.connect();
             const pass = await UserModel.passBcrypt('admin');
             const sql =
-                "INSERT INTO users (firstname, lastname, email, password) VALUES ('admin', 'admin','admin',$1) ON CONFLICT DO NOTHING;";
+                "INSERT INTO users (firstname, lastname, email, password, role) VALUES ('admin', 'admin','admin',$1,'admin') ON CONFLICT DO NOTHING;";
             await conn.query({
                 text: sql,
                 values: [pass]
@@ -149,4 +151,6 @@ export class UserModel implements UserModelBase {
         }
     }
 }
-UserModel.initDbWithAdmin();
+// // because i can
+// db-migrate don't work with ecma6 so i can't use top level await in index.ts so as a work around using callbackify
+export const initDbWithAdminCB = callbackify(UserModel.initDbWithAdmin);

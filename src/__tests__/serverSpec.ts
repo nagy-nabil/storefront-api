@@ -1,6 +1,6 @@
 import Request from 'supertest';
 import App from '../server.js';
-import { UserModel } from '../resources/user/user.model.js';
+import { initDbWithAdminCB } from '../resources/user/user.model.js';
 const superApp = Request(App);
 let normalUserToken!: string;
 let adminUserToken!: string;
@@ -8,6 +8,11 @@ let categoryId!: string;
 let productId!: string;
 let orderId!: string;
 describe('server running', () => {
+    beforeAll(() => {
+        initDbWithAdminCB((err) => {
+            if (err) throw err;
+        });
+    });
     describe('main end point', () => {
         it('main end point "/"', async (): Promise<void> => {
             const res = await superApp.get('/');

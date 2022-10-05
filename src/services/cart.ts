@@ -1,6 +1,6 @@
 //module contain database related operation to the cart and i execlude those queries from the user , order or product model because those query contain more than table and it's hard to set them in single module
-import { OrderDoc, ProductDoc } from '../utils/types';
-import client from '../utils/database';
+import { OrderDoc, ProductDoc } from '../utils/types.js';
+import client from '../utils/database.js';
 export class CartQuery {
     /**
      * function to return only meta data about user active order

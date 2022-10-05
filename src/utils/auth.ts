@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { UserDoc, UserInReq, UserRole } from './types';
+import { UserDoc, UserInReq, UserRole } from './types.js';
 import { Response, NextFunction } from 'express';
 /**
  * function create token from user doc
