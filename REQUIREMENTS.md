@@ -4,34 +4,50 @@ The company stakeholders want to create an online storefront to showcase their g
 These are the notes from a meeting with the frontend developer that describe what endpoints the API needs to supply, as well as data shapes the frontend and backend have agreed meet the requirements of the application. 
 
 ## API Endpoints
-#### Products
-- ✅ Index 
-- ✅ Show
-- ✅ Create [token required] [only admins]
-- ✅[OPTIONAL] Top 5 most popular products 
-- ✅[OPTIONAL] Products by category (args: product category)
-
 #### Users
-- ✅Index [token required]
-- Show [token required]
-- ✅Create N[token required] [only admin can create another admins from the dashboard]
+- ✅ singup : POST ('/user/signup')
+- ✅ singin : POST ('/user/signin')
+- ✅ Index [token required] [only admins] : GET ('/user-admin/admins')
+- ✅ Show [token required] [only admins] : GET ('/user-admin/admins/:id')
+- ✅ Create admin[token required] [only admin can create another admins from the dashboard] : POST ('/user-admin/admins')
+#### categories
+> all endpoints for admins only so all token required and admins only
+- ✅ Index : GET ('/category')
+- ✅ Show : GET ('/category/:id') 
+- ✅ Create : POST ('/category')
+- ✅ uppdateOne : PUT ('/category/:id')
+- ✅ deleteOne : DELETE ('/category/:id')
+#### Products
+- ✅ Index : GET ('/product')
+- ✅ Show : GET ('/product/:id') 
+- ✅ Products by category (args: product category) : GET ('/product/category/:catId')
+- ✅ Create [token required] [only admins]:  : POST ('/product-admin')
+- ✅ uppdateOne [token required] [only admins]:  : PUT ('/product-admin/:id')
+- ✅ deleteOne [token required] [only admins]:  : DELETE ('/product-admin/:id')
+- ✅ Top 5 most popular products [token required] [only admins] : GET ('/product-admin/dashboard/popular-products') 
 
 #### Orders
-- ✅Current Order by user (args: user id)[token required]
-- ✅[OPTIONAL] Completed Orders by user (args: user id)[token required]
+- ✅ Current Order by user [token required] : GET ('/order/activeorder')
+- ✅ Completed Orders by user [token required] : GET ('/order/completedOrders')
+- ✅ add product to user active order [token required] : POST ('/order/addtoorder/:orderId')
+- ✅ create order [token required] : POST ('/order')
+- ✅ update order [token required] : PUT ('/order/id')
+- ✅ get user active order with its products [token required] : GET ('/order/orderproducts')
 
 ## Data Shapes
 #### ✅Product
 -  id
 - name
 - price
-- [OPTIONAL] category
+- category
 
 #### ✅User
 - id
 - firstName
 - lastName
 - password
+- email
+- role
 
 #### ✅Orders
 - id
@@ -39,4 +55,3 @@ These are the notes from a meeting with the frontend developer that describe wha
 - quantity of each product in the order
 - user_id
 - status of order (active or complete)
-

@@ -1,5 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
+import cors from 'cors';
 import { userRouter, userRouterAdmin } from './resources/user/user.router.js';
 import categoryRouter from './resources/category/category.router.js';
 import orderRouter from './resources/order/order.router.js';
@@ -10,6 +11,7 @@ import {
 import { authProtect, isAdmin } from './utils/auth.js';
 const app = express();
 // general middlewared
+app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
