@@ -4,6 +4,6 @@ CREATE TABLE users (
     lastName VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    role VARCHAR(200) DEFAULT 'user' NOT NULL,
+    role VARCHAR(200) DEFAULT 'user' NOT NULL CHECK( role = 'user' OR role = 'admin'),
     createdAt TIMESTAMP DEFAULT NOW()
 );
