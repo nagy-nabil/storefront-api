@@ -96,3 +96,4 @@ These are the notes from a meeting with the frontend developer that describe wha
     productid UUID NOT NULL REFERENCES products(id),
     quantity BIGINT NOT NULL
 );
+![schmea](/assets//Schema.png)
