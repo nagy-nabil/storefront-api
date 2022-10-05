@@ -10,4 +10,5 @@ userRouter.post('/signin', userController.signIn);
 // [admins]
 userRouterAdmin.route('/').post(userController.createAdmin);
 userRouterAdmin.route('/admins').get(userController.indexAdmins);
+userRouterAdmin.route('/admins/:id').get(userController.showAdmin);
 export { userRouter, userRouterAdmin };

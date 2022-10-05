@@ -49,6 +49,19 @@ async function indexAdmins(
         next(err);
     }
 }
+//get the id from req params as id
+async function showAdmin(
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
+    try {
+        const users = await model.showAdmin(req.params.id);
+        res.json({ data: users });
+    } catch (err) {
+        next(err);
+    }
+}
 async function createAdmin(
     req: Request,
     res: Response,
@@ -74,5 +87,6 @@ export default {
     signUp,
     signIn,
     indexAdmins,
-    createAdmin
+    createAdmin,
+    showAdmin
 };

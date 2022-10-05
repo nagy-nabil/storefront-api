@@ -79,6 +79,21 @@ export class UserModel implements UserModelBase {
             throw new Error(`couldn't get admins ${err}`);
         }
     }
+    async showAdmin(userId: string): Promise<UserDoc> {
+        try {
+            const conn = await client.connect();
+            const sql =
+                "SELECT id, firstname, lastname, email, role FROM users WHERE id = $1 AND role = 'admin';";
+            const users = await conn.query({
+                text: sql,
+                values: [userId]
+            });
+            conn.release();
+            return users.rows[0];
+        } catch (err) {
+            throw new Error(`couldn't get admins ${err}`);
+        }
+    }
     /**
      * return token if the user was created successfully
      * @param arg User
