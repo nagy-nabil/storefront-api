@@ -106,7 +106,7 @@ describe('user end points[note that the database must be shipped with admin]', (
             });
             it('create admin with admin user token success', async () => {
                 const res = await superApp
-                    .post('/user-admin')
+                    .post('/user-admin/admins')
                     .set('authorization', `Bearer ${adminUserToken}`)
                     .send({
                         firstname: 'admin2',
