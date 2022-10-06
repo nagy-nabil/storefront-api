@@ -60,8 +60,8 @@
 - only ***admin*** could create another admins [ no sign up page for admins/ the super admin only could create another ones from the dashboard ]  [ token required, with user of role **admin** ]
 
 ## Environment Variables
-** create ``.env`` file in the main dir so the server could read and complete the configurations from it and then next table contain what ``.env`` file must include and why those fields then example of the file structure**
- 
+**create ``.env`` file in the main dir so the server could read and complete the configurations from it and then next table contain what ``.env`` file must include and why those fields then example of the file structure**
+
 | VAR NAME      | REQUIRED                  | EXAMPLE    | DEFAULT | DESCRIPTION                                                          |
 |---------------|---------------------------|------------|---------|----------------------------------------------------------------------|
 | PORT          | 🔴                         | 8000       | 3000    | set which port the server will run on                                |
