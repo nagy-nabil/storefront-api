@@ -4,7 +4,7 @@
 1. ### you must get [postgreSQL](https://www.postgresql.org/download/) installed in your machine
     **create two databases one for ENV = dev and the other for ENV = test**
     > note save their names because you gonna add them in env variables so that ***node-postgres*** can connect to those databases
-    
+
     example run this sql code in your psql or whatever the way you interact with postgreSQL to create ``storefront_dev`` and ``storefront_test``
     ```
     CREATE DATABASE storefront_dev;
@@ -12,7 +12,11 @@
     ```
     **after creating the database install the uuid extension on both because we're using it as our id for all tables**
     ```
+    \c storefront_dev
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+    \c storefront_test
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
     ```
 2. ### install all npm packages
     ```
