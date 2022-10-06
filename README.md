@@ -16,7 +16,6 @@
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
     \c storefront_test
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
     ```
 2. ### install all npm packages
     ```
@@ -25,6 +24,8 @@
 3. ### setup the .env file from [environment-variables](#environment-variables) section
     >note without .env file you can not connect to the database neither running tests or run migrations
 4. ### run database migrations
+    > db-migrate automatically connect to the database by reading **.env** file to complete its configurations in **database.json**
+
     ```
     db-migrate up
     ```
@@ -59,6 +60,8 @@
 - only ***admin*** could create another admins [ no sign up page for admins/ the super admin only could create another ones from the dashboard ]  [ token required, with user of role **admin** ]
 
 ## Environment Variables
+** create ``.env`` file in the main dir so the server could read and complete the configurations from it and then next table contain what ``.env`` file must include and why those fields then example of the file structure**
+ 
 | VAR NAME      | REQUIRED                  | EXAMPLE    | DEFAULT | DESCRIPTION                                                          |
 |---------------|---------------------------|------------|---------|----------------------------------------------------------------------|
 | PORT          | 🔴                         | 8000       | 3000    | set which port the server will run on                                |
