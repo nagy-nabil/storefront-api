@@ -1,8 +1,16 @@
 # STOREFRONT-FWD
 
 ## INSTALLATION
-1. ### you must get [postgreSQL](https://www.postgresql.org/download/) installed in your machine 
-    **create the database and then install the uuid extension because we're using it as our id for all tables**
+1. ### you must get [postgreSQL](https://www.postgresql.org/download/) installed in your machine
+    **create two databases one for ENV = dev and the other for ENV = test**
+    > note save their names because you gonna add them in env variables so that ***node-postgres*** can connect to those databases
+    
+    example run this sql code in your psql or whatever the way you interact with postgreSQL to create ``storefront_dev`` and ``storefront_test``
+    ```
+    CREATE DATABASE storefront_dev;
+    CREATE DATABASE storefront_test;
+    ```
+    **after creating the database install the uuid extension on both because we're using it as our id for all tables**
     ```
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
     ```
@@ -66,8 +74,8 @@
 ```
 PORT = 3000
 PG_HOST = 
-PG_DB = 
-PG_TEST_DB = 
+PG_DB = storefront_dev
+PG_TEST_DB = storefront_test
 PG_PORT = 5432
 PG_USER = 
 PG_PASSWORD = 
