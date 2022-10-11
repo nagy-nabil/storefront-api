@@ -6,13 +6,21 @@
     > note save their names because you gonna add them in env variables so that ***node-postgres*** can connect to those databases
 
     example run this sql code in your psql or whatever the way you interact with postgreSQL to create ``storefront_dev`` and ``storefront_test``
+
+
+    you can run the [databaseInit.sql](./databaseInit.sql) to create the next commands but keep in mind it will create the databases with names ``storefront_dev`` and ``storefront_test``
+    to run the file in ***psql*** 
+    ```
+    \i ./databaseInit.sql
+    ```
+    **or**
     ```
     CREATE DATABASE storefront_dev;
     CREATE DATABASE storefront_test;
     ```
     **after creating the database install the uuid extension on both because we're using it as our id for all tables**
     ```
-    \c storefront_dev
+        \c storefront_dev
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
     \c storefront_test
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
