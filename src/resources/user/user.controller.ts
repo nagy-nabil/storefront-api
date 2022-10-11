@@ -1,5 +1,6 @@
 import { UserModel } from './user.model.js';
 import { NextFunction, Request, Response } from 'express';
+import { UserInReq } from 'src/utils/types.js';
 const model = new UserModel();
 //user router controllers
 async function signUp(
@@ -83,10 +84,26 @@ async function createAdmin(
         next(err);
     }
 }
+async function updatePass(
+    req: UserInReq,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
+    try {
+        if (!req.user) throw new Error('not authorized');
+        if (!req.body.password)
+            throw new Error('must get password in the request body');
+        await model.updatePass(req.user.id, req.body.password);
+        res.status(201).json({ msg: 'password has been updated successfully' });
+    } catch (err) {
+        next(err);
+    }
+}
 export default {
     signUp,
     signIn,
     indexAdmins,
     createAdmin,
-    showAdmin
+    showAdmin,
+    updatePass
 };

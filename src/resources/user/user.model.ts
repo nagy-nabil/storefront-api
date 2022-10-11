@@ -46,7 +46,6 @@ export class UserModel implements UserModelBase {
      */
     static async initDbWithAdmin(): Promise<void> {
         try {
-            console.log('in');
             const conn = await client.connect();
             const pass = await UserModel.passBcrypt('admin');
             const sql =
@@ -161,6 +160,29 @@ export class UserModel implements UserModelBase {
             conn.release();
             const token = createJWT(res.rows[0]);
             return token;
+        } catch (err) {
+            throw new Error(`couldn't create admin ${err}`);
+        }
+    }
+    /**
+     * use it with post or put not decided yet which part to update user password
+     * , return true if successed
+     * @param userId string
+     * @param password string-new password
+     * @returns boolean
+     */
+    async updatePass(userId: string, password: string): Promise<boolean> {
+        try {
+            const conn = await client.connect();
+            const pass = await UserModel.passBcrypt(password);
+            const sql =
+                'UPDATE users SET password = $2 WHERE id = $1 RETURNING *;';
+            await conn.query({
+                text: sql,
+                values: [userId, pass]
+            });
+            conn.release();
+            return true;
         } catch (err) {
             throw new Error(`couldn't create admin ${err}`);
         }
